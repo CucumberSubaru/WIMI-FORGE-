@@ -1,7 +1,7 @@
 plugins {
     id 'eclipse'
     id 'idea'
-    id 'net.minecraftforge.gradle' version '[6.0,6.2)'
+    id 'net.minecraftforge.gradle' version '6.0.54'
 }
 
 version = mod_version
@@ -12,6 +12,9 @@ base {
 }
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(21)
+
+// Forge's development launcher must discover classes and mods.toml together.
+sourceSets.main.output.resourcesDir = layout.buildDirectory.dir('classes/java/main').get().asFile
 
 minecraft {
     mappings channel: 'official', version: minecraft_version
@@ -45,10 +48,6 @@ tasks.named('processResources', ProcessResources).configure {
     filesMatching(['META-INF/mods.toml']) {
         expand replaceProperties
     }
-}
-
-tasks.named('jar', Jar).configure {
-    finalizedBy 'reobfJar'
 }
 
 tasks.withType(JavaCompile).configureEach {

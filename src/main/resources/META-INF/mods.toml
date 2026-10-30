@@ -15,15 +15,13 @@ When you open the inventory, a backpack is first raised and opened in your hands
 [[dependencies.${mod_id}]]
 modId = "forge"
 mandatory = true
-type = "required"
-versionRange = "[52,)"
+versionRange = "[52.1.0,53)"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.${mod_id}]]
 modId = "minecraft"
 mandatory = true
-type = "required"
-versionRange = "[1.21.1,1.22)"
+versionRange = "[1.21.1]"
 ordering = "NONE"
 side = "BOTH"

@@ -5,6 +5,8 @@ import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraftforge.client.event.RenderHandEvent;
+import net.minecraftforge.client.event.ModelEvent;
+import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.client.event.ScreenEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent;
@@ -13,11 +15,17 @@ import net.minecraftforge.event.TickEvent;
 public final class BackpackInvClient {
     private BackpackInvClient() {}
 
-    public static void init() {
+    public static void init(IEventBus modBus) {
+        modBus.addListener(BackpackInvClient::registerModels);
         InventoryAnimation.reloadConfig();
         MinecraftForge.EVENT_BUS.addListener(BackpackInvClient::onClientTick);
         MinecraftForge.EVENT_BUS.addListener(BackpackInvClient::onScreenOpening);
         MinecraftForge.EVENT_BUS.addListener(BackpackInvClient::onRenderHand);
+    }
+
+    private static void registerModels(ModelEvent.RegisterAdditional event) {
+        event.register(InventoryAnimation.BODY_MODEL);
+        event.register(InventoryAnimation.LID_MODEL);
     }
 
     private static void onClientTick(TickEvent.ClientTickEvent.Post event) {

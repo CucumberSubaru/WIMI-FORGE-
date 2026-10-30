@@ -4,6 +4,9 @@ import com.backpackinv.BackpackInv;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.client.resources.model.ModelResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 
 public final class InventoryAnimation {
     public enum Phase { NONE, RAISING, OPEN, LOWERING }
@@ -15,8 +18,11 @@ public final class InventoryAnimation {
     private static float lowerFromBag = 1.0f;
     private static float lowerFromLid = 1.0f;
     private static BackpackInvConfig config = new BackpackInvConfig();
-    private static ItemStack bodyStack;
-    private static ItemStack lidStack;
+    private static ItemStack propStack;
+    public static final ModelResourceLocation BODY_MODEL = new ModelResourceLocation(
+            ResourceLocation.fromNamespaceAndPath(BackpackInv.ASSET_NAMESPACE, "item/backpack_body"), "standalone");
+    public static final ModelResourceLocation LID_MODEL = new ModelResourceLocation(
+            ResourceLocation.fromNamespaceAndPath(BackpackInv.ASSET_NAMESPACE, "item/backpack_lid"), "standalone");
 
     private InventoryAnimation() {}
 
@@ -32,14 +38,9 @@ public final class InventoryAnimation {
         return phase != Phase.NONE;
     }
 
-    public static ItemStack bodyStack() {
-        if (bodyStack == null) bodyStack = new ItemStack(BackpackInv.BACKPACK_BODY.get());
-        return bodyStack;
-    }
-
-    public static ItemStack lidStack() {
-        if (lidStack == null) lidStack = new ItemStack(BackpackInv.BACKPACK_LID.get());
-        return lidStack;
+    public static ItemStack propStack() {
+        if (propStack == null) propStack = new ItemStack(Items.STICK);
+        return propStack;
     }
 
     /**

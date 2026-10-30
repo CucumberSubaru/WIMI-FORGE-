@@ -10,7 +10,7 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.item.ItemDisplayContext;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.client.resources.model.ModelResourceLocation;
 
 public final class BackpackRenderer {
     private BackpackRenderer() {}
@@ -51,7 +51,7 @@ public final class BackpackRenderer {
         poseStack.translate(0.0F, 0.21875F, 0.0F); // центрируем модель по высоте
 
         // корпус
-        renderPart(poseStack, buffer, light, InventoryAnimation.bodyStack());
+        renderPart(poseStack, buffer, light, InventoryAnimation.BODY_MODEL);
 
         // крышка поворачивается вокруг задней верхней кромки корпуса
         poseStack.pushPose();
@@ -59,7 +59,7 @@ public final class BackpackRenderer {
         poseStack.translate(0.0F, -0.15625F, -0.125F);
         poseStack.mulPose(Axis.XP.rotationDegrees(-cfg.lidOpenAngle * lid));
         poseStack.translate(0.0F, 0.15625F, 0.125F);
-        renderPart(poseStack, buffer, light, InventoryAnimation.lidStack());
+        renderPart(poseStack, buffer, light, InventoryAnimation.LID_MODEL);
         poseStack.popPose();
 
         poseStack.popPose();
@@ -73,17 +73,17 @@ public final class BackpackRenderer {
         return -Mth.cos(f * (float) Math.PI) * 0.5F + 0.5F;
     }
 
-    private static void renderPart(PoseStack poseStack, MultiBufferSource buffer, int light, ItemStack stack) {
+    private static void renderPart(PoseStack poseStack, MultiBufferSource buffer, int light, ModelResourceLocation modelId) {
         Minecraft mc = Minecraft.getInstance();
-        mc.getItemRenderer().renderStatic(
-                stack,
+        mc.getItemRenderer().render(
+                InventoryAnimation.propStack(),
                 ItemDisplayContext.FIXED,
-                light,
-                OverlayTexture.NO_OVERLAY,
+                false,
                 poseStack,
                 buffer,
-                mc.level,
-                0
+                light,
+                OverlayTexture.NO_OVERLAY,
+                mc.getModelManager().getModel(modelId)
         );
     }
 
